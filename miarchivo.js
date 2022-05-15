@@ -75,10 +75,18 @@ class Simulator {
             this.setCuotas(cuotas);
             this.setInteres(interes);
         } else {
-            document.getElementById("introduccion").innerHTML = 'Revisar Capital, Cuotas o Interes, los 3 deben ser números y mayores a cero.';
+            swal({
+                title: "Error en Validación",
+                text: "Revisar Capital, Cuotas o Interes, los 3 deben ser números y mayores a cero.",
+                icon: "error",
+              });
             return;
         }
-
+        swal({
+            title: "Generando pagos",
+            text: "Simulación de pagos exitoso!",
+            icon: "success",
+          });
         const introduccion = `Con un capital de S/.${this.getCapital()}, numero de cuotas de ${this.getCuotas()} y un interes de
                                 ${this.getInteres()}%, se obtiene la siguiente simulacion:`;
         document.getElementById("introduccion").innerHTML = introduccion;
