@@ -70,14 +70,22 @@ class Simulator {
         const response = this.validations();
 
         if (response) {
-            const { capital, cuotas, interes } = response;
+            const { capital, cuotas, interes, identificador } = response;
             this.setCapital(capital);
             this.setCuotas(cuotas);
             this.setInteres(interes);
+            fetch(`https://jsonplaceholder.typicode.com/users/${identificador}`)
+  .then(response => response.json())
+  .then(json => {
+    document.getElementById("nombre").innerHTML = `nombre: ${json.name}`;
+    document.getElementById("email").innerHTML = `email: ${json.email}`;
+    document.getElementById("telefono").innerHTML = `telefono: ${json.phone}`;
+    document.getElementById("usuario").innerHTML = `usuario: ${json.username}`;
+  })
         } else {
             swal({
                 title: "Error en Validación",
-                text: "Revisar Capital, Cuotas o Interes, los 3 deben ser números y mayores a cero.",
+                text: "Revisar Capital, Cuotas o Interes, los 3 deben ser números y mayores a cero. Identificador debe estar entre 1 a 10",
                 icon: "error",
               });
             return;
@@ -119,9 +127,10 @@ class Simulator {
         const capital = Number(document.getElementById("capital").value);
         const cuotas = Number(document.getElementById("cuota").value);
         const interes = Number(document.getElementById("interes").value);
+        const identificador = Number(document.getElementById("identificador").value);
 
-        if (typeof capital === 'number' && typeof cuotas === 'number' && typeof interes === 'number') {
-            return (capital > 0 && cuotas > 0 && interes > 0) ? ({ capital, cuotas, interes }) : null;
+        if (typeof capital === 'number' && typeof cuotas === 'number' && typeof interes === 'number' && typeof identificador === 'number') {
+            return (capital > 0 && cuotas > 0 && interes > 0 && identificador > 0 && identificador < 11) ? ({ capital, cuotas, interes, identificador }) : null;
         } else {
             return null;
         }
